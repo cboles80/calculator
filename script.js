@@ -1,4 +1,4 @@
-const version = "0.0.4";
+const version = "0.0.41";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -36,13 +36,13 @@ function handleUserInput(e) {
     }
     if(idx === -1){
         return; //<============== EARLY RETURN
-    }else if(idx <= 11){
+    }else if(idx <= 9){ // ***(0-9)***
         inputBuffer += myValue;
         elDisplay.innerText = inputBuffer;
         console.log('SHOULD BE A NUMBER');
-    }else if(idx === arValidInputs.length - 1){
-        console.log('operator');
-    }else {
+    }else if(idx === arValidInputs.length - 1){ // ***(=)***
+        console.log('equals');
+    }else { // ***(/, x, -, +)***
         inputBuffer += ' ' + myValue + ' ';
         elDisplay.innerText = inputBuffer;
     }
