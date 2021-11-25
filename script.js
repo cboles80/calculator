@@ -1,4 +1,4 @@
-const version = "0.0.5";
+const version = "0.0.6";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -6,7 +6,7 @@ elVersion.innerHTML = version;
 const elKeys = document.querySelectorAll('.keyboard-frame div');
 const elDisplay = document.querySelector('.display')
 const arValidInputs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
-'/', 'x', '-', '+', '='];
+'/', 'x', '-', '+', 'Clr', '='];
 let inputBuffer = '';
 
 function calculate(inputBuffer){
@@ -16,9 +16,23 @@ function calculate(inputBuffer){
     let operation = arInputs[1];
     console.log(operation);
     let myAnswer;
-    if (operation === "+"){
-        myAnswer = parseInt(arInputs[0]) + parseInt(arInputs[2]);
+    switch(operation) {
+        case '+':
+            myAnswer = parseInt(arInputs[0]) + parseInt(arInputs[2]);
+            break;
+        case '-':
+            myAnswer = arInputs[0] - arInputs[2];
+            break;
+        case '*':
+            myAnswer = arInputs[0] * arInputs[2];
+            break;
+        case '/':
+            myAnswer = arInputs[0] / arInputs[2];
+            break;
     }
+    // if (operation === "+"){
+    //     myAnswer = parseInt(arInputs[0]) + parseInt(arInputs[2]);
+    // }
     return " = " + myAnswer;
 }
 
@@ -44,9 +58,6 @@ function handleUserInput(e) {
     let idx = arValidInputs.indexOf(myValue);
     console.log(idx);
     //Check if input is valid
-    if(myValue === 'Clr'){
-        clearCalc()
-    }
     if(idx === -1){
         return; //<============== EARLY RETURN
     }else if(idx <= 9){ // ***(0-9)***
@@ -57,6 +68,8 @@ function handleUserInput(e) {
         inputBuffer += calculate(inputBuffer);
         elDisplay.innerText = inputBuffer;
         console.log('equals');
+    }else if (idx === arValidInputs.length -2){
+        clearCalc();
     }else { // ***(/, x, -, +)***
         inputBuffer += ' ' + myValue + ' ';
         elDisplay.innerText = inputBuffer;
