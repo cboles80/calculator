@@ -1,4 +1,4 @@
-const version = "0.0.41";
+const version = "0.0.5";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -8,6 +8,19 @@ const elDisplay = document.querySelector('.display')
 const arValidInputs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.',
 '/', 'x', '-', '+', '='];
 let inputBuffer = '';
+
+function calculate(inputBuffer){
+    console.log('equals');
+    let arInputs = inputBuffer.split(' ');
+    console.log(arInputs);
+    let operation = arInputs[1];
+    console.log(operation);
+    let myAnswer;
+    if (operation === "+"){
+        myAnswer = parseInt(arInputs[0]) + parseInt(arInputs[2]);
+    }
+    return " = " + myAnswer;
+}
 
 function clearCalc(){
     inputBuffer = '';
@@ -41,6 +54,8 @@ function handleUserInput(e) {
         elDisplay.innerText = inputBuffer;
         console.log('SHOULD BE A NUMBER');
     }else if(idx === arValidInputs.length - 1){ // ***(=)***
+        inputBuffer += calculate(inputBuffer);
+        elDisplay.innerText = inputBuffer;
         console.log('equals');
     }else { // ***(/, x, -, +)***
         inputBuffer += ' ' + myValue + ' ';
