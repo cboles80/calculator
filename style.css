@@ -24,12 +24,22 @@ main{
 }
 
 .display{
+    display: flex;
+    justify-content: space-between;
     border: solid 1px black;
     padding: .25em;
     height: 1.5em;
     background-color: #fff;
     margin-bottom: 0.5em;
     text-align: right;
+}
+
+.display .running{
+    border: solid 1px red;
+} 
+
+.display .live{
+    border: solid 1px green;
 }
 
 .keyboard-frame{
