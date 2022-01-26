@@ -1,4 +1,4 @@
-const version = "0.0.8";
+const version = "0.0.9";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -50,12 +50,12 @@ function handleUserInput(e) {
     console.log(e);
     console.log(e.type);
     let myValue;
-    console.log('operator',liveOperator);
+    console.log('liveoperator:',liveOperator);
 
     if (e.type === 'keyup'){
         myValue = e.key;
         console.log(myValue);
-    } else{
+    }else{
         console.log('else');
         myValue = e.target.innerHTML;
         console.log(myValue);
@@ -63,7 +63,7 @@ function handleUserInput(e) {
     console.log('myValue is: ', myValue);
     console.log(liveOperator);
     let idx = arValidInputs.indexOf(myValue);
-    console.log('idx', idx);
+    console.log('idx:', idx);
     //Check if input is valid
     if(idx === -1){
         return; //<============== EARLY RETURN
@@ -72,7 +72,9 @@ function handleUserInput(e) {
         elDisplay.innerText = inputBuffer;
         console.log('SHOULD BE A NUMBER');
         if(liveOperator === 0){
+            console.info(accumulator);
             accumulator = inputBuffer;
+            console.info(accumulator);
         }else{
             accumulator = calculate(inputBuffer);
             console.log('accumulator', accumulator);
@@ -88,9 +90,10 @@ function handleUserInput(e) {
     }else { // ***(/, x, -, +)***
         if(liveOperator === 0){
             inputBuffer += ' ' + myValue + ' ';
+            console.warn('liveOperator = 0');
             // accumulator = inputBuffer;
         }else{
-            inputBuffer = accumulator + ' ' + myValue;
+            inputBuffer = accumulator + ' ' + myValue + ' ';
             console.log('lo != 0',inputBuffer);
             // accumulator = calculate(inputBuffer);
             console.log('accumulator', accumulator);
