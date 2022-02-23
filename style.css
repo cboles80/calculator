@@ -46,7 +46,7 @@ main{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 2px;
-    background-color: #ccc;
+    background-color: #999;
 }
 
 .keyboard-frame div{
