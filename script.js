@@ -1,4 +1,4 @@
-const version = "0.0.91";
+const version = "0.0.93";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -14,14 +14,15 @@ let liveOperator = 0;
 let accumulator;
 let precision = 0;
 
-function updateCalculationPrecision(ibvalue) {
+function updateCalculationPrecision(pValue) {
     console.log(liveOperator);
     const myOperator = arValidInputs[liveOperator];
-    ibvalue.toString();
-    console.log("updateCalculationPrecision", ibvalue);
-    if (ibvalue.includes('.') === true) {
-        const decimal = ibvalue.indexOf('.');
-        const decNumber = ibvalue.slice(decimal + 1);
+    pValue.toString();
+    console.log("updateCalculationPrecision", pValue);
+    
+    if (pValue.includes('.') === true) {
+        const decimal = pValue.indexOf('.');
+        const decNumber = pValue.slice(decimal + 1);
         console.log("decNumber = " + decNumber);
         console.log(decNumber.toString().length);
         let myPrecision = decNumber.toString().length;
@@ -70,6 +71,7 @@ function calculate(inputBuffer) {
     console.log(myAnswer);
     console.log(typeof myAnswer);
     myAnswer.toFixed(precision);
+    myAnswer = (Math.round(myAnswer * 100) / 100).toFixed(precision);
     console.log(myAnswer);
     return myAnswer;
 }
@@ -117,7 +119,7 @@ function handleUserInput(e) {
             console.log('accumulator', accumulator);
         }
     } else if (idx === arValidInputs.length - 1) { // ***(=)***
-        updateCalculationPrecision(inputBuffer);
+        updateCalculationPrecision(myValue);
         accumulator = calculate(inputBuffer);
         inputBuffer += ' = ' + accumulator;
         elDisplay.innerText = inputBuffer;
