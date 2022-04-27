@@ -1,4 +1,4 @@
-const version = "0.0.93";
+const version = "0.0.95";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -13,12 +13,13 @@ let inputBuffer = '';
 let liveOperator = 0;
 let accumulator;
 let precision = 0;
+let lastNumberInput;
 
 function updateCalculationPrecision(pValue) {
     console.log(liveOperator);
     const myOperator = arValidInputs[liveOperator];
     pValue.toString();
-    console.log("updateCalculationPrecision", pValue);
+    console.log("updateCalculationPrecision pValue is: ", pValue);
     
     if (pValue.includes('.') === true) {
         const decimal = pValue.indexOf('.');
@@ -50,6 +51,7 @@ function updateCalculationPrecision(pValue) {
 }
 
 function calculate(inputBuffer) {
+    console.log('top calculate');
     let arInputs = inputBuffer.split(' ');
     let operation = arInputs[1];
     let myAnswer;
@@ -67,12 +69,15 @@ function calculate(inputBuffer) {
             myAnswer = arInputs[0] / arInputs[2];
             break;
     }
-    console.log(precision);
-    console.log(myAnswer);
+
+    console.log('precision is: ', precision);
+
+    console.log('calculate', myAnswer);
     console.log(typeof myAnswer);
-    myAnswer.toFixed(precision);
+
+    // myAnswer.toFixed(precision);
     myAnswer = (Math.round(myAnswer * 100) / 100).toFixed(precision);
-    console.log(myAnswer);
+    console.log('calculate after mult * 100 is: ', myAnswer);
     return myAnswer;
 }
 
@@ -89,20 +94,15 @@ function clearCalc() {
 
 function handleUserInput(e) {
     let myValue;
-    console.log('liveoperator:', liveOperator);
 
     if (e.type === 'keyup') {
         myValue = e.key;
-        console.log(myValue);
     } else {
-        console.log('else');
         myValue = e.target.innerHTML;
-        console.log(myValue);
     }
-    console.log('myValue is: ', myValue);
-    console.log(liveOperator);
+
     let idx = arValidInputs.indexOf(myValue);
-    console.log('idx:', idx);
+
     //Check if input is valid
     if (idx === -1) {
         return; //<============== EARLY RETURN
@@ -110,46 +110,49 @@ function handleUserInput(e) {
     } else if (idx <= 10) { // ***(0-9,.)***
         inputBuffer += myValue;
         elDisplay.innerText = inputBuffer;
-        console.log('SHOULD BE A NUMBER');
+    
         if (liveOperator === 0) {
             accumulator = inputBuffer;
-            console.info(accumulator);
         } else {
+            if (idx !== 10) {
+                let arTemp  = inputBuffer.split(' ');
+                lastNumberInput = arTemp[2];
+            }
             accumulator = calculate(inputBuffer);
-            console.log('accumulator', accumulator);
         }
+
     } else if (idx === arValidInputs.length - 1) { // ***(=)***
-        updateCalculationPrecision(myValue);
+        console.log('ucp= ');
+        updateCalculationPrecision(lastNumberInput);
         accumulator = calculate(inputBuffer);
+
         inputBuffer += ' = ' + accumulator;
+        
         elDisplay.innerText = inputBuffer;
         elRunning.innerText = accumulator;
-        console.log('equals');
-        precision = 0;
+        //precision = 0;
+
     } else if (idx === arValidInputs.length - 2) {
         clearCalc();
+
     } else { // ***(/, x, -, +)***
         let theValue = inputBuffer;
         if (liveOperator === 0) {
             inputBuffer += ' ' + myValue + ' ';
-            console.warn('liveOperator = 0');
             // accumulator = inputBuffer;
         } else {
             inputBuffer = accumulator + ' ' + myValue + ' ';
-            console.log('lo != 0', inputBuffer);
+            theValue = inputBuffer;
             // accumulator = calculate(inputBuffer);
-            console.log('accumulator', accumulator);
         }
         liveOperator = idx;
         //Store the precision of the calculation
-        updateCalculationPrecision(theValue);
-        console.log("precision = " + precision);
-        console.log('liveOperator', liveOperator);
+        console.log('ucp + -');
+        updateCalculationPrecision(theValue); // <======================== 
         elDisplay.innerText = inputBuffer;
     }
 
     myValue = Array.of(myValue);
-    console.log('myValue arr', myValue);
 }
 
 // ON PAGE LOAD
