@@ -23,6 +23,7 @@ function updateCalculationPrecision(pValue) {
     
     if (pValue.includes('.') === true) {
         const decimal = pValue.indexOf('.');
+        console.log("decimal = " , decimal);
         const decNumber = pValue.slice(decimal + 1);
         console.log("decNumber = " + decNumber);
         console.log(decNumber.toString().length);
@@ -101,7 +102,7 @@ function handleUserInput(e) {
         myValue = e.target.innerHTML;
     }
 
-    let idx = arValidInputs.indexOf(myValue);
+    let idx =  arValidInputs.indexOf(myValue);
 
     //Check if input is valid
     if (idx === -1) {
@@ -142,7 +143,12 @@ function handleUserInput(e) {
             // accumulator = inputBuffer;
         } else {
             inputBuffer = accumulator + ' ' + myValue + ' ';
-            theValue = inputBuffer;
+            theValue = inputBuffer
+            if (inputBuffer.trim().slice(-1) === myValue) {
+                const arTemp = inputBuffer.split(' ');
+                theValue = arTemp[0];
+            }
+            
             // accumulator = calculate(inputBuffer);
         }
         liveOperator = idx;
