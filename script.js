@@ -1,4 +1,4 @@
-const version = "0.0.95";
+const version = "1.0.00";
 const elVersion = document.querySelector('.version');
 console.log('Hello World ' + version);
 elVersion.innerHTML = version;
@@ -16,26 +16,20 @@ let precision = 0;
 let lastNumberInput;
 
 function updateCalculationPrecision(pValue) {
-    console.log(liveOperator);
     const myOperator = arValidInputs[liveOperator];
     pValue.toString();
     console.log("updateCalculationPrecision pValue is: ", pValue);
     
     if (pValue.includes('.') === true) {
         const decimal = pValue.indexOf('.');
-        console.log("decimal = " , decimal);
         const decNumber = pValue.slice(decimal + 1);
-        console.log("decNumber = " + decNumber);
-        console.log(decNumber.toString().length);
         let myPrecision = decNumber.toString().length;
         switch (myOperator) {
             case "+":
             case "-":
-                console.log("+");
                 if (myPrecision > precision) {
                     precision = myPrecision;
                 }
-                console.log(precision, myPrecision);
                 break;
 
             case "*":
@@ -43,10 +37,7 @@ function updateCalculationPrecision(pValue) {
                 precision += myPrecision;
                 break;
         }
-        // return decNumber.toString().length;
     } else {
-        console.log('Doesnt include a decimal');
-        // return 0;
     }
 
 }
@@ -76,9 +67,7 @@ function calculate(inputBuffer) {
     console.log('calculate', myAnswer);
     console.log(typeof myAnswer);
 
-    // myAnswer.toFixed(precision);
     myAnswer = (Math.round(myAnswer * 100) / 100).toFixed(precision);
-    console.log('calculate after mult * 100 is: ', myAnswer);
     return myAnswer;
 }
 
@@ -123,7 +112,6 @@ function handleUserInput(e) {
         }
 
     } else if (idx === arValidInputs.length - 1) { // ***(=)***
-        console.log('ucp= ');
         updateCalculationPrecision(lastNumberInput);
         accumulator = calculate(inputBuffer);
 
@@ -148,12 +136,9 @@ function handleUserInput(e) {
                 const arTemp = inputBuffer.split(' ');
                 theValue = arTemp[0];
             }
-            
-            // accumulator = calculate(inputBuffer);
         }
         liveOperator = idx;
         //Store the precision of the calculation
-        console.log('ucp + -');
         updateCalculationPrecision(theValue); // <======================== 
         elDisplay.innerText = inputBuffer;
     }
